@@ -45,6 +45,27 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Product API! Go to /api/products to see all products.');
 });
 
+app.post('/api/products', (req,res) => {
+  const newProduct = {id: products.length +1, name:req.body.name};
+  products.push(newProduct);
+  res.status(201).json(newProduct);
+})
+app.get('/api/products', (req, res) =>{
+  res.json(products);
+})
+app.get('/api/products/:id', (req,res) =>{
+  const product = products.find(u => u.id == req.params.id);
+  res.json(product);
+})
+app.put('/api/products/:id', (req,res) =>{
+  const product = products.find(u => u.id === Number(req.params.id));
+  product.name = req.body.name;
+  res.json(product);
+})
+app.delete('/api/products/:id', (req,res) =>{
+  const product = products.filter(u => u.id != req.params.id);
+  res.json(product);
+})
 // TODO: Implement the following routes:
 // GET /api/products - Get all products
 // GET /api/products/:id - Get a specific product
